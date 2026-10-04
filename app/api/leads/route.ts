@@ -67,9 +67,10 @@ export async function POST(req: Request) {
         tags: tags,
       });
 
-      if (contactResult?.contact?.id) {
+      const contactId = contactResult?.contact?.id || contactResult?.id || null;
+      if (contactId) {
         await ghlClient.createOpportunity({
-          contactId: contactResult.contact.id,
+          contactId,
           name: `${normalizedFirstName} ${normalizedLastName || ""}`.trim(),
         });
       }

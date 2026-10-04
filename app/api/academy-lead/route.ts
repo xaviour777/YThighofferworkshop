@@ -45,15 +45,14 @@ export async function POST(req: Request) {
       tags: tags,
     });
 
-    if (!contactResult || !contactResult.contact || !contactResult.contact.id) {
+    const contactId = contactResult?.contact?.id || contactResult?.id || null;
+    if (!contactId) {
       console.warn("Contact creation returned unexpected result:", contactResult);
       return NextResponse.json({
         success: false,
         error: 'Contact creation failed in GHL.'
       }, { status: 500 });
     }
-
-    const contactId = contactResult.contact.id;
 
     // 2. If stage is 'payment-sent', try to update existing opportunity first
     if (stage === 'payment-sent' && data.opportunityId) {

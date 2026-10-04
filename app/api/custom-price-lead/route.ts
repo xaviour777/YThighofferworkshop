@@ -125,7 +125,7 @@ export async function POST(req: Request) {
         tags,
       });
 
-      contactId = contactResult?.contact?.id || null;
+      contactId = contactResult?.contact?.id || contactResult?.id || null;
 
       // 2. Create Opportunity in GHL
       if (contactId) {
