@@ -1,6 +1,0 @@
-{
-  "name": "YouTube Empire Builders Landing Page",
-  "description": "High-converting, mobile-first landing page for Abrar Nadir's daily live YouTube automation workshop.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
