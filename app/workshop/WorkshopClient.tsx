@@ -145,7 +145,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
   const [done, setDone] = useState<{ screenshotSaved: boolean } | null>(null);
 
   const pkg = WORKSHOP_PACKAGES[pkgId];
-  const { JAZZCASH_NUMBER, JAZZCASH_TITLE, JAZZCASH_QR, WHATSAPP } = WORKSHOP_CONFIG;
+  const { EASYPAISA_NUMBER, EASYPAISA_TITLE, EASYPAISA_QR, WHATSAPP } = WORKSHOP_CONFIG;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -159,7 +159,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
   }, [onClose]);
 
   const waText = encodeURIComponent(
-    `Assalam o Alaikum! Maine ${pkg.label} (${pkg.priceLabel}) ke liye JazzCash par payment ki hai.\nNaam: ${name || "-"}\nWhatsApp: ${phone || "-"}${txn ? `\nTransaction ID: ${txn}` : ""}\nPayment screenshot attach kar raha/rahi hoon.`
+    `Assalam o Alaikum! Maine ${pkg.label} (${pkg.priceLabel}) ke liye Easypaisa par payment ki hai.\nNaam: ${name || "-"}\nWhatsApp: ${phone || "-"}${txn ? `\nTransaction ID: ${txn}` : ""}\nPayment screenshot attach kar raha/rahi hoon.`
   );
   const waLink = `https://wa.me/${WHATSAPP}?text=${waText}`;
 
@@ -183,7 +183,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
 
   const copyNumber = async () => {
     try {
-      await navigator.clipboard.writeText(JAZZCASH_NUMBER);
+      await navigator.clipboard.writeText(EASYPAISA_NUMBER);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -295,20 +295,20 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
 
             <div className="f1-co-pay">
               <div className="f1-co-amount">
-                <span>JazzCash par bhejein</span>
+                <span>Easypaisa par bhejein</span>
                 <strong>{pkg.priceLabel}</strong>
               </div>
-              {JAZZCASH_QR && (
+              {EASYPAISA_QR && (
                 <div className="f1-co-qr">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={JAZZCASH_QR} alt="JazzCash QR code" />
-                  <small>JazzCash app se QR scan karein</small>
+                  <img src={EASYPAISA_QR} alt="Easypaisa QR code" />
+                  <small>Easypaisa app se QR scan karein</small>
                 </div>
               )}
               <button type="button" className="f1-co-acc" onClick={copyNumber}>
                 <span>
-                  <small>JazzCash · {JAZZCASH_TITLE}</small>
-                  <b>{JAZZCASH_NUMBER}</b>
+                  <small>Easypaisa · {EASYPAISA_TITLE}</small>
+                  <b>{EASYPAISA_NUMBER}</b>
                 </span>
                 <em>{copied ? "✓ Copied" : "Copy"}</em>
               </button>
