@@ -41,10 +41,10 @@ export const WORKSHOP_CONFIG = {
   SEATS_LEFT: null as number | null,
   // WhatsApp number for support and for sending payment screenshots (digits only).
   WHATSAPP: "923274532186",
-  JAZZCASH_NUMBER: "03274532186",
-  JAZZCASH_TITLE: "Muhammad Abrar",
-  // Path of the JazzCash QR image in /public (e.g. "/workshop/jazzcash-qr.png"). Empty hides the QR box.
-  JAZZCASH_QR: "",
+  EASYPAISA_NUMBER: "03274532186",
+  EASYPAISA_TITLE: "Muhammad Abrar",
+  // Path of the Easypaisa QR image in /public (e.g. "/workshop/easypaisa-qr.png"). Empty hides the QR box.
+  EASYPAISA_QR: "",
   // Short film embed URL (YouTube embed / Vimeo / .mp4). Empty shows the placeholder.
   VIDEO_URL: "",
 };

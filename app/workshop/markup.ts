@@ -165,7 +165,7 @@ export const WORKSHOP_MARKUP = `
   <div class="f1-eyebrow">Kaise join karein</div>
   <h2 class="f1-anton">3 steps.</h2>
   <div class="f1-grid f1-g3" style="margin-top:26px">
-    <div class="f1-card f1-step"><b>01</b><h3>Register karo</h3><p>Online (Rs.1,999) ya physical (Rs.5,000) chuno, JazzCash par pay karo aur seat book karo.</p></div>
+    <div class="f1-card f1-step"><b>01</b><h3>Register karo</h3><p>Online (Rs.1,999) ya physical (Rs.5,000) chuno, Easypaisa par pay karo aur seat book karo.</p></div>
     <div class="f1-card f1-step"><b>02</b><h3>Link milega</h3><p>WhatsApp/email par Google Meet link aur session time aa jayega.</p></div>
     <div class="f1-card f1-step"><b>03</b><h3>Session join karo</h3><p>Laptop ya phone se join karo, saath saath execute karo.</p></div>
   </div>
@@ -193,7 +193,7 @@ export const WORKSHOP_MARKUP = `
     <details><summary>Kya yeh live hai ya recorded?</summary><p>Yeh Abrar ki recorded 2-ghante masterclass hai jo roz ek fixed time par Google Meet par chalti hai. Sawal WhatsApp group mein poochein, jawab wahin milta hai. Jis din Abrar khud live hote hain, woh alag se announce hota hai.</p></details>
     <details><summary>Session kab hota hai?</summary><p>Roz ek session hota hai. Exact time registration ke baad confirm kiya jata hai.</p></details>
     <details><summary>Kya kamai ki guarantee hai?</summary><p>Nahi. Koi bhi honest banda income ki guarantee nahi de sakta. Hum system aur process sikhate hain; result aap ke execution par depend karta hai.</p></details>
-    <details><summary>Payment ke baad kya hoga?</summary><p>JazzCash par payment karein, phir screenshot registration form mein attach karein ya WhatsApp par bhej dein. Confirmation ke baad Google Meet ka link (ya physical workshop ki location) mil jayega.</p></details>
+    <details><summary>Payment ke baad kya hoga?</summary><p>Easypaisa par payment karein, phir screenshot registration form mein attach karein ya WhatsApp par bhej dein. Confirmation ke baad Google Meet ka link (ya physical workshop ki location) mil jayega.</p></details>
     <details><summary>Physical workshop kahan aur kab hota hai?</summary><p>H Block, Johar Town, Lahore mein, roz shaam 5:00 se 7:00 PM. Fee Rs.5,000 hai. Exact location payment confirm hone ke baad WhatsApp par bheji jati hai.</p></details>
   </div>
 </div></section>

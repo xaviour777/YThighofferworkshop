@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
               ? [{ key: process.env.GHL_TRANSACTION_ID_FIELD_KEY, field_value: txn }]
               : []),
             ...(process.env.GHL_PAYMENT_METHOD_FIELD_KEY
-              ? [{ key: process.env.GHL_PAYMENT_METHOD_FIELD_KEY, field_value: "JazzCash" }]
+              ? [{ key: process.env.GHL_PAYMENT_METHOD_FIELD_KEY, field_value: "Easypaisa" }]
               : []),
             ...(process.env.GHL_LANDING_PAGE_FIELD_KEY
               ? [{ key: process.env.GHL_LANDING_PAGE_FIELD_KEY, field_value: "/workshop" }]
@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
         `• Name: ${name}`,
         `• WhatsApp: ${normalizedPhone}`,
         cleanEmail ? `• Email: ${cleanEmail}` : "",
-        `• Payment: JazzCash`,
+        `• Payment: Easypaisa`,
         `• Transaction ID: ${txn || "N/A"}`,
         utmLine ? `• Source: ${utmLine}` : "",
         receiptUrl
