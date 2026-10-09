@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { WORKSHOP_PACKAGES, type WorkshopPackageId } from "@/app/workshop/config";
+import { WORKSHOP_CONFIG, WORKSHOP_PACKAGES, type WorkshopPackageId } from "@/app/workshop/config";
 
 const GHL_BASE = "https://services.leadconnectorhq.com";
 // Vercel rejects request bodies over ~4.5 MB; the page compresses screenshots well below this.
@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
       phone,
       email,
       transactionId,
+      paymentMethod,
       screenshotBase64,
       screenshotFilename,
       utm_source,
@@ -86,6 +87,8 @@ export async function POST(req: NextRequest) {
     const normalizedPhone = normalizePakPhone(phone);
     const cleanEmail = typeof email === "string" && email.includes("@") ? email.trim().toLowerCase() : "";
     const txn = typeof transactionId === "string" ? transactionId.trim() : "";
+    const pay =
+      WORKSHOP_CONFIG.PAYMENT_METHODS.find((m) => m.id === paymentMethod) ?? WORKSHOP_CONFIG.PAYMENT_METHODS[0];
 
     const token = process.env.GHL_PRIVATE_INTEGRATION_TOKEN;
     const locationId = process.env.GHL_LOCATION_ID;
@@ -130,7 +133,7 @@ export async function POST(req: NextRequest) {
               ? [{ key: process.env.GHL_TRANSACTION_ID_FIELD_KEY, field_value: txn }]
               : []),
             ...(process.env.GHL_PAYMENT_METHOD_FIELD_KEY
-              ? [{ key: process.env.GHL_PAYMENT_METHOD_FIELD_KEY, field_value: "Easypaisa" }]
+              ? [{ key: process.env.GHL_PAYMENT_METHOD_FIELD_KEY, field_value: pay.label }]
               : []),
             ...(process.env.GHL_LANDING_PAGE_FIELD_KEY
               ? [{ key: process.env.GHL_LANDING_PAGE_FIELD_KEY, field_value: "/workshop" }]
@@ -198,7 +201,8 @@ export async function POST(req: NextRequest) {
         `• Name: ${name}`,
         `• WhatsApp: ${normalizedPhone}`,
         cleanEmail ? `• Email: ${cleanEmail}` : "",
-        `• Payment: Easypaisa`,
+        `• Payment: ${pay.label} (${pay.account})`,
+        `• Time: Roz ${WORKSHOP_CONFIG.SESSION_LABEL}`,
         `• Transaction ID: ${txn || "N/A"}`,
         utmLine ? `• Source: ${utmLine}` : "",
         receiptUrl

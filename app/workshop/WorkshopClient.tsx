@@ -55,7 +55,7 @@ export default function WorkshopClient() {
       set("cH", pad(Math.floor(s / 3600)));
       set("cM", pad(Math.floor((s % 3600) / 60)));
       set("cS", pad(s % 60));
-      set("nextNote", `Agla online session: ${day} ${tl} (Pakistan time) · 100 seats`);
+      set("nextNote", `Agla session: ${day} ${tl} (Pakistan time) · Online 100 seats · Physical sirf 10`);
       set("barTime", `${day} ${tl}`);
     };
     tick();
@@ -131,11 +131,11 @@ async function compressImage(file: File): Promise<string> {
 }
 
 function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onClose: () => void }) {
+  const { PAYMENT_METHODS, WHATSAPP, SESSION_LABEL } = WORKSHOP_CONFIG;
   const [pkgId, setPkgId] = useState<WorkshopPackageId>(initialPkg);
+  const [payId, setPayId] = useState(PAYMENT_METHODS[0].id);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [txn, setTxn] = useState("");
   const [shot, setShot] = useState<{ data: string; name: string } | null>(null);
   const [shotBusy, setShotBusy] = useState(false);
   const [sendLater, setSendLater] = useState(false);
@@ -145,7 +145,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
   const [done, setDone] = useState<{ screenshotSaved: boolean } | null>(null);
 
   const pkg = WORKSHOP_PACKAGES[pkgId];
-  const { EASYPAISA_NUMBER, EASYPAISA_TITLE, EASYPAISA_QR, WHATSAPP } = WORKSHOP_CONFIG;
+  const pay = PAYMENT_METHODS.find((m) => m.id === payId) ?? PAYMENT_METHODS[0];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -158,10 +158,19 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
     };
   }, [onClose]);
 
-  const waText = encodeURIComponent(
-    `Assalam o Alaikum! Maine ${pkg.label} (${pkg.priceLabel}) ke liye Easypaisa par payment ki hai.\nNaam: ${name || "-"}\nWhatsApp: ${phone || "-"}${txn ? `\nTransaction ID: ${txn}` : ""}\nPayment screenshot attach kar raha/rahi hoon.`
-  );
-  const waLink = `https://wa.me/${WHATSAPP}?text=${waText}`;
+  // Prefilled first message to the team's WhatsApp, carrying everything the student entered.
+  const waText = [
+    "Assalam o Alaikum! Maine F1 Workshop ke liye registration ki hai.",
+    "",
+    `Naam: ${name.trim() || "-"}`,
+    `WhatsApp: ${phone.trim() || "-"}`,
+    `Package: ${pkg.label}`,
+    `Time: Roz ${SESSION_LABEL}`,
+    `Fee: ${pkg.priceLabel}`,
+    `Payment: ${pay.label} (${pay.account})`,
+    shot && done?.screenshotSaved ? "Screenshot: form mein attach kar diya hai" : "Screenshot: is message ke saath bhej raha/rahi hoon",
+  ].join("\n");
+  const waLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(waText)}`;
 
   const onFile = async (file: File | undefined) => {
     setError("");
@@ -181,9 +190,9 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
     }
   };
 
-  const copyNumber = async () => {
+  const copyAccount = async () => {
     try {
-      await navigator.clipboard.writeText(EASYPAISA_NUMBER);
+      await navigator.clipboard.writeText(pay.account);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -196,7 +205,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
     setError("");
     if (name.trim().length < 2) return setError("Apna poora naam likhein.");
     if (phone.replace(/\D/g, "").length < 10) return setError("Sahi WhatsApp number likhein (e.g. 03001234567).");
-    if (!shot && !sendLater) return setError("Payment screenshot attach karein, ya 'WhatsApp par bhejunga' select karein.");
+    if (!shot && !sendLater) return setError("Screenshot attach karein, ya 'WhatsApp par bhejunga' select karein.");
 
     setSubmitting(true);
     try {
@@ -211,13 +220,11 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           packageId: pkgId,
+          paymentMethod: pay.id,
           fullName: name.trim(),
           phone: phone.trim(),
-          email: email.trim(),
-          transactionId: txn.trim(),
           screenshotBase64: shot?.data || "",
           screenshotFilename: shot?.name || "",
-          screenshotViaWhatsApp: !shot,
           ...utm,
         }),
       });
@@ -227,7 +234,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
       const w = window as unknown as { fbq?: (...a: unknown[]) => void };
       w.fbq?.("track", "Lead", { value: pkg.price, currency: "PKR", content_name: pkg.label });
     } catch {
-      setError("Registration submit nahi hui. Dobara try karein, ya neeche WhatsApp button se humein message kar dein.");
+      setError("Submit nahi hua. Dobara try karein, ya neeche WhatsApp se rabta karein.");
     } finally {
       setSubmitting(false);
     }
@@ -244,86 +251,65 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
           <div className="f1-co-done">
             <div className="f1-co-check">✓</div>
             <h3>Registration mil gayi!</h3>
-            {done.screenshotSaved ? (
-              <p>
-                Aap ka payment screenshot humein mil gaya hai. Verify hone ke baad {pkgId === "physical" ? "location aur timing" : "Google Meet link"} WhatsApp par aa jayega.
-              </p>
-            ) : (
-              <p>
-                <b>Aakhri step:</b> neeche button daba kar payment screenshot WhatsApp par bhej dein. Verify hone ke baad {pkgId === "physical" ? "location aur timing" : "Google Meet link"} aa jayega.
-              </p>
-            )}
+            <p>
+              {done.screenshotSaved ? "Screenshot humein mil gaya. " : "Aakhri step: screenshot WhatsApp par bhej dein. "}
+              Neeche button dabayein, aap ki detail WhatsApp par chali jayegi. Verify hone ke baad{" "}
+              {pkgId === "physical" ? "location" : "Google Meet link"} wahin aa jayega.
+            </p>
             <a className="f1-co-wa" href={waLink} target="_blank" rel="noopener">
-              {done.screenshotSaved ? "WhatsApp par rabta karein" : "Screenshot WhatsApp par bhejo"}
+              WhatsApp par detail bhejo
             </a>
           </div>
         ) : (
           <form onSubmit={submit} noValidate>
-            <div className="f1-co-eyebrow">Seat book karo</div>
-            <h3>Package chunein</h3>
-            <div className="f1-co-pkgs">
+            <h3>Seat book karo</h3>
+            <p className="f1-co-time">Roz {SESSION_LABEL} · Pakistan time</p>
+
+            <div className="f1-co-seg" role="group" aria-label="Package">
               {(Object.keys(WORKSHOP_PACKAGES) as WorkshopPackageId[]).map((id) => {
                 const p = WORKSHOP_PACKAGES[id];
                 return (
-                  <button
-                    type="button"
-                    key={id}
-                    className={"f1-co-pkg" + (id === pkgId ? " on" : "")}
-                    onClick={() => setPkgId(id)}
-                    aria-pressed={id === pkgId}
-                  >
-                    <b>{p.label}</b>
-                    <span>{p.detail}</span>
+                  <button type="button" key={id} className={id === pkgId ? "on" : ""} onClick={() => setPkgId(id)} aria-pressed={id === pkgId}>
+                    <b>{p.short}</b>
                     <strong>{p.priceLabel}</strong>
+                    <span>{id === "physical" ? "Sirf 10 seats" : "100 seats"}</span>
                   </button>
                 );
               })}
             </div>
 
-            <label className="f1-co-field">
-              <span>Poora naam *</span>
-              <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" required />
-            </label>
-            <label className="f1-co-field">
-              <span>WhatsApp number *</span>
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" placeholder="03001234567" autoComplete="tel" required />
-            </label>
-            <label className="f1-co-field">
-              <span>Email (optional)</span>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" />
-            </label>
+            <div className="f1-co-row">
+              <input aria-label="Poora naam" placeholder="Poora naam *" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+              <input aria-label="WhatsApp number" placeholder="WhatsApp no. *" value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" autoComplete="tel" />
+            </div>
 
             <div className="f1-co-pay">
-              <div className="f1-co-amount">
-                <span>Easypaisa par bhejein</span>
-                <strong>{pkg.priceLabel}</strong>
+              <div className="f1-co-paytabs" role="group" aria-label="Payment method">
+                {PAYMENT_METHODS.map((m) => (
+                  <button type="button" key={m.id} className={m.id === payId ? "on" : ""} onClick={() => setPayId(m.id)} aria-pressed={m.id === payId}>
+                    {m.label}
+                  </button>
+                ))}
               </div>
-              {EASYPAISA_QR && (
-                <div className="f1-co-qr">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={EASYPAISA_QR} alt="Easypaisa QR code" />
-                  <small>Easypaisa app se QR scan karein</small>
-                </div>
+              {pay.qr && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="f1-co-qr" src={pay.qr} alt={`${pay.label} QR code`} />
               )}
-              <button type="button" className="f1-co-acc" onClick={copyNumber}>
+              <button type="button" className="f1-co-acc" onClick={copyAccount}>
                 <span>
-                  <small>Easypaisa · {EASYPAISA_TITLE}</small>
-                  <b>{EASYPAISA_NUMBER}</b>
+                  <small>
+                    {pay.title} · {pkg.priceLabel} bhejein
+                  </small>
+                  <b>{pay.account}</b>
                 </span>
                 <em>{copied ? "✓ Copied" : "Copy"}</em>
               </button>
             </div>
 
-            <label className="f1-co-field">
-              <span>Transaction ID (optional)</span>
-              <input value={txn} onChange={(e) => setTxn(e.target.value)} />
-            </label>
-
-            <div className="f1-co-field">
-              <span>Payment screenshot</span>
+            <div className="f1-co-shot">
               <label className={"f1-co-upload" + (shot ? " has" : "")}>
                 <input type="file" accept="image/*" onChange={(e) => onFile(e.target.files?.[0])} />
-                {shotBusy ? "Load ho raha hai..." : shot ? `✓ ${shot.name} (badalne ke liye dabayein)` : "📎 Screenshot attach karein"}
+                {shotBusy ? "Load ho raha hai..." : shot ? "✓ Screenshot lag gaya" : "📎 Payment screenshot"}
               </label>
               <label className="f1-co-later">
                 <input
@@ -334,7 +320,7 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
                     if (e.target.checked) setShot(null);
                   }}
                 />
-                Screenshot baad mein WhatsApp par bhejunga
+                WhatsApp par bhejunga
               </label>
             </div>
 
@@ -343,9 +329,6 @@ function Checkout({ initialPkg, onClose }: { initialPkg: WorkshopPackageId; onCl
             <button type="submit" className="f1-co-submit" disabled={submitting || shotBusy}>
               {submitting ? "Submit ho raha hai..." : `Seat confirm karo · ${pkg.priceLabel}`}
             </button>
-            <a className="f1-co-help" href={waLink} target="_blank" rel="noopener">
-              Koi masla? WhatsApp par rabta karein
-            </a>
           </form>
         )}
       </div>
