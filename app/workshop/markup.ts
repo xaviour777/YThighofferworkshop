@@ -2,7 +2,7 @@
 // site-wide globals.css cannot clash with them.
 export const WORKSHOP_MARKUP = `
 <div class="f1-bar"><div class="f1-wrap">
-  <span class="f1-live"><span class="f1-dot"></span>DAILY SESSION · <span id="barTime">Aaj 5:00 PM</span></span>
+  <span class="f1-live"><span class="f1-dot"></span>DAILY SESSION · <span id="barTime">Aaj 8:00 PM</span></span>
   <span class="f1-mute" id="barSeats">Online 100 seats · Physical sirf 10</span>
   <a class="f1-btn f1-js-reg" href="#offer">Seat book karo</a>
 </div></div>
@@ -10,15 +10,15 @@ export const WORKSHOP_MARKUP = `
 <!-- HERO -->
 <header class="f1-hero"><div class="f1-wrap">
   <div class="f1-eyebrow">Abrar Nadir · YT Empire Builders · F1 Workshop</div>
-  <h1 class="f1-anton">CHEHRA DIKHAYE BAGHAIR<br><span class="f1-gold">APNA YOUTUBE CHANNEL.</span><br>AAJ SHAAM, 2 GHANTE MEIN.</h1>
+  <h1 class="f1-anton">CHEHRA DIKHAYE BAGHAIR<br><span class="f1-gold">APNA YOUTUBE CHANNEL.</span><br>AAJ RAAT, 2 GHANTE MEIN.</h1>
   <p class="f1-sub">Niche kaunsa, script kaise, video kis free tool se, title aur thumbnail kya: <b>sab kuch aap ki aankhon ke saamne, screen par banta hua</b>. Session khatam hone tak aap ke paas apne channel ka <b>saaf plan aur pehla step</b> hoga. Ghar se online, ya Lahore mein aamne saamne.</p>
   <div class="f1-chips">
-    <span class="f1-chip">🎬 <b>Roz 5:00 - 7:00 PM</b> · Pakistan time</span>
+    <span class="f1-chip">🎬 <b>Roz 8:00 - 10:00 PM</b> · Pakistan time</span>
     <span class="f1-chip">⏱ <b>2 ghante</b></span>
     <span class="f1-chip">💻 <b>Online</b> · Google Meet</span>
     <span class="f1-chip">🎟 Online <b>100 seats</b> · Physical <b>10 seats</b></span>
     <span class="f1-chip">🗣 Hinglish + English</span>
-    <a class="f1-chip" href="#physical" style="text-decoration:none">📍 <b>Physical</b> · Johar Town, Lahore · 5-7 PM</a>
+    <a class="f1-chip" href="#physical" style="text-decoration:none">📍 <b>Physical</b> · Johar Town, Lahore · 8-10 PM</a>
   </div>
   <div class="f1-cta-row">
     <a class="f1-btn f1-js-reg" href="#offer">Register · Rs.1,999 <small>→</small></a>
@@ -123,7 +123,7 @@ export const WORKSHOP_MARKUP = `
   <div class="f1-offer">
     <div class="f1-eyebrow">Aaj ka offer</div>
     <h2 class="f1-anton" style="margin-bottom:6px">F1 ONLINE WORKSHOP</h2>
-    <p class="f1-mute">Roz 5:00 PM se 7:00 PM · 2 ghante · Online (Google Meet) · Hinglish + English</p>
+    <p class="f1-mute">Roz 8:00 PM se 10:00 PM · 2 ghante · Online (Google Meet) · Hinglish + English</p>
     <ul class="f1-stack" style="margin-top:22px">
       <li><span class="f1-tick">✓</span><div><b>2 ghante ka full workshop (recorded masterclass)</b><br><span class="f1-mute">Poora faceless YouTube system, shuru se upload tak, screen par execute hota hua.</span></div></li>
       <li><span class="f1-tick">✓</span><div><b>Real data se niche selection</b><br><span class="f1-mute">Saturated aur open markets ka farq, live data par.</span></div></li>
@@ -147,7 +147,7 @@ export const WORKSHOP_MARKUP = `
   <div class="f1-offer" id="physical" style="margin-top:22px">
     <div class="f1-eyebrow">Physical workshop · Lahore</div>
     <h2 class="f1-anton" style="margin-bottom:6px">F1 LIVE PHYSICAL WORKSHOP</h2>
-    <p class="f1-mute">📍 H Block, Johar Town, Lahore · Roz 5:00 PM se 7:00 PM · Aamne saamne · <b class="f1-gold">Sirf 10 seats roz</b></p>
+    <p class="f1-mute">📍 H Block, Johar Town, Lahore · Roz 8:00 PM se 10:00 PM · Aamne saamne · <b class="f1-gold">Sirf 10 seats roz</b></p>
     <ul class="f1-stack" style="margin-top:22px">
       <li><span class="f1-tick">✓</span><div><b>Wahi poora F1 system, live aur in-person</b><br><span class="f1-mute">Niche se upload tak, aap ke saamne screen par execute hota hua.</span></div></li>
       <li><span class="f1-tick">✓</span><div><b>Sawal usi waqt, aamne saamne</b><br><span class="f1-mute">Apna channel ya idea saath laayein, wahin par baat hogi.</span></div></li>
@@ -191,10 +191,10 @@ export const WORKSHOP_MARKUP = `
     <details><summary>Kya mehenge tools ya laptop zaroori hai?</summary><p>Nahi. Workflow free tools par dikhaya jata hai. Laptop behtar hai, magar phone se bhi join aur follow kar sakte ho.</p></details>
     <details><summary>Workshop kis language mein hai?</summary><p>Hinglish (Urdu/Hindi + English) mein, simple alfaaz mein.</p></details>
     <details><summary>Kya yeh live hai ya recorded?</summary><p>Yeh Abrar ki recorded 2-ghante masterclass hai jo roz ek fixed time par Google Meet par chalti hai. Sawal WhatsApp group mein poochein, jawab wahin milta hai. Jis din Abrar khud live hote hain, woh alag se announce hota hai.</p></details>
-    <details><summary>Session kab hota hai?</summary><p>Roz shaam 5:00 se 7:00 PM (Pakistan time). Online aur physical dono ka time same hai. Online mein 100 seats hain, physical mein sirf 10.</p></details>
+    <details><summary>Session kab hota hai?</summary><p>Roz raat 8:00 se 10:00 PM (Pakistan time). Online aur physical dono ka time same hai. Online mein 100 seats hain, physical mein sirf 10.</p></details>
     <details><summary>Kya kamai ki guarantee hai?</summary><p>Nahi. Koi bhi honest banda income ki guarantee nahi de sakta. Hum system aur process sikhate hain; result aap ke execution par depend karta hai.</p></details>
     <details><summary>Payment ke baad kya hoga?</summary><p>Easypaisa ya Meezan Bank mein payment karein, phir screenshot registration form mein attach karein ya WhatsApp par bhej dein. Confirmation ke baad Google Meet ka link (ya physical workshop ki location) mil jayega.</p></details>
-    <details><summary>Physical workshop kahan aur kab hota hai?</summary><p>H Block, Johar Town, Lahore mein, roz shaam 5:00 se 7:00 PM. Fee Rs.5,000 hai. Exact location payment confirm hone ke baad WhatsApp par bheji jati hai.</p></details>
+    <details><summary>Physical workshop kahan aur kab hota hai?</summary><p>H Block, Johar Town, Lahore mein, roz raat 8:00 se 10:00 PM. Fee Rs.5,000 hai. Exact location payment confirm hone ke baad WhatsApp par bheji jati hai.</p></details>
   </div>
 </div></section>
 
@@ -203,7 +203,7 @@ export const WORKSHOP_MARKUP = `
   <p class="f1-serif" style="font-size:26px;color:var(--mute)">Kal se shuru karunga, yeh jumla aap pehle bhi bol chuke ho.</p>
   <h2 class="f1-anton" style="margin:14px 0 26px">AAJ 2 GHANTE DO.<br><span class="f1-gold">SYSTEM LO.</span></h2>
   <a class="f1-btn f1-js-reg" href="#">Register · Rs.1,999 · Online</a>
-  <p class="f1-note">Roz 5-7 PM · Online 100 seats · Physical 10 seats</p>
+  <p class="f1-note">Roz 8-10 PM · Online 100 seats · Physical 10 seats</p>
 </div></section>
 
 <footer><div class="f1-wrap">
