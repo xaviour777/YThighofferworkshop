@@ -18,7 +18,7 @@ export const WORKSHOP_PACKAGES: Record<WorkshopPackageId, WorkshopPackage> = {
     id: "online",
     label: "F1 Online Workshop",
     short: "Online",
-    detail: "Google Meet · Roz 5-7 PM · 100 seats",
+    detail: "Google Meet · Roz 8-10 PM · 100 seats",
     price: 1999,
     priceLabel: "Rs.1,999",
     opportunityName: "F1 Online Workshop (PKR 1,999)",
@@ -28,7 +28,7 @@ export const WORKSHOP_PACKAGES: Record<WorkshopPackageId, WorkshopPackage> = {
     id: "physical",
     label: "F1 Live Physical Workshop",
     short: "Physical (Lahore)",
-    detail: "Johar Town, Lahore · Roz 5-7 PM · 10 seats",
+    detail: "Johar Town, Lahore · Roz 8-10 PM · 10 seats",
     price: 5000,
     priceLabel: "Rs.5,000",
     opportunityName: "F1 Physical Workshop, Johar Town (PKR 5,000)",
@@ -38,8 +38,8 @@ export const WORKSHOP_PACKAGES: Record<WorkshopPackageId, WorkshopPackage> = {
 
 export const WORKSHOP_CONFIG = {
   // Daily start time for both online and physical, Pakistan time (24h). Drives the countdown.
-  SESSION_TIME: "17:00",
-  SESSION_LABEL: "5:00 PM se 7:00 PM",
+  SESSION_TIME: "20:00",
+  SESSION_LABEL: "8:00 PM se 10:00 PM",
   SEATS_TOTAL: 100,
   // e.g. 37; null hides the "seats left" number.
   SEATS_LEFT: null as number | null,
